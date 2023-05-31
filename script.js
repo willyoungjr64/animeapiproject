@@ -5,7 +5,9 @@ const animeURL = document.getElementById("anime-url");
 const animeTitle = document.getElementById("anime-title");
 const animeScore = document.getElementById("anime-score");
 const animeButton = document.getElementById("anime-button");
-
+const animeFinishedAiring = document.getElementById("finished-airing");
+const animeSynopsis = document.getElementById("synopsis");
+const animeAirDate= document.getElementById("airDate");
 
 
 //console.log(animeURL.innerHTML);
@@ -15,6 +17,9 @@ async function fetchQuote() {
   let title;
   let imgUrl;
   let url;
+  let finishedAiring;
+  let synopsis;
+  let airDate;
   const res = await fetch("https://api.jikan.moe/v4/random/anime");
   //   const res2 = await fetch("https://api.kanye.rest");
 
@@ -26,11 +31,23 @@ async function fetchQuote() {
 
   imgUrl = json.data.images.jpg.image_url;
   url = json.data.url;
+  finishedAiring = json.data.status;
+  synopsis = json.data.synopsis;
+  airDate = json.data.aired.prop.from.day + "/" + json.data.aired.prop.from.month + "/" + json.data.aired.prop.from.year;
+  //console.log(airDate);
+
 
   if (score > 7) {
-    animeScore.innerHTML = `Score: ${score}`;
+    animeScore.innerHTML = `Score: ${score} maybe watch it 👍`;
+    animeFinishedAiring.innerHTML = finishedAiring;
+    animeSynopsis.innerHTML = synopsis;
+    animeAirDate.innerHTML = `Air Date: ${airDate}`;
+
   } else {
     animeScore.innerHTML = `This anime has less than a 7 on MyAnimeList (${score}). 👎 Do not watch.`;
+    animeFinishedAiring.innerHTML = finishedAiring;
+    animeSynopsis.innerHTML = synopsis;
+    animeAirDate.innerHTML = `Air Date: ${airDate}`;
   }
   animeImg.src = imgUrl;
   animeTitle.innerHTML = title;
